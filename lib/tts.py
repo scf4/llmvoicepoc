@@ -1,68 +1,91 @@
-import os
 import asyncio
-import subprocess
-from typing import AsyncGenerator, Optional, Dict, Any
+import pyaudio
+import os
+from typing import AsyncGenerator
 from cartesia import AsyncCartesia
+from dotenv import load_dotenv
 
-CARTESIA_API_KEY = os.getenv("CARTESIA_API_KEY")
+load_dotenv()
 
-
-async def __local_tts__(text: str):
+async def stream_tts(text: str, cancel_event):
     """
-    Use macOS built-in TTS to convert text to speech.
+    Streams text to the TTS service and receives audio
     """
-    try:
-        process = subprocess.Popen(
-            ['say', text],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        stdout, stderr = process.communicate()
-        
-        if process.returncode != 0:
-            print(f"TTS Error: {stderr.decode('utf-8')}")
-            return None
-        
-        return stdout
-    except Exception as e:
-        print(f"TTS Exception: {str(e)}")
-        return None
+    print(f"[DEBUG] Starting TTS for text: {text}")
+    client = AsyncCartesia(api_key=os.environ.get("CARTESIA_API_KEY"))
+    ws = await client.tts.websocket()
+    ctx = ws.context()
 
 
-async def stream_tts(
-    text_stream: AsyncGenerator[str, None],
-    model_id: str = "sonic-english",
-    voice_id: Optional[str] = None,
-    output_format: Optional[Dict[str, Any]] = None,
-    language: Optional[str] = None,
-) -> AsyncGenerator[bytes, None]:
-    async with AsyncCartesia(api_key=CARTESIA_API_KEY) as client:
-        ws = await client.tts.websocket()
-        context = ws.context()
-
-        if not output_format:
-            output_format = client.tts.get_output_format("raw_mp3_44100")
-
-        async def send_chunks():
-            try:
-                async for chunk in text_stream:
-                    await context.send(
-                        model_id=model_id,
-                        transcript=chunk,
-                        output_format=output_format,
-                        voice_id=voice_id,
-                        language=language,
-                        continue_=True,
-                    )
-            finally:
-                await context.no_more_inputs()
-
-        send_task = asyncio.create_task(send_chunks())
-
+    async def send_transcripts():
         try:
-            async for response in context.receive():
-                if "audio" in response:
-                    yield response["audio"]
-        finally:
-            await send_task
-            await ws.close()
+            print("[DEBUG] Sending transcript to TTS service")
+            await ctx.send(
+                model_id="sonic-english",
+                transcript=text,
+                voice_id="1001d611-b1a8-46bd-a5ca-551b23505334",
+                output_format={"container": "raw", "sample_rate": 16000, "encoding": "pcm_s16le"},
+                continue_=True
+            )
+            print("[DEBUG] Transcript sent successfully")
+            await ctx.no_more_inputs()
+        except Exception as e:
+            print(f"Error in send_transcripts: {e}")
+
+    try:
+        send_task = asyncio.create_task(send_transcripts())
+        listen_task = asyncio.create_task(receive_and_play_audio(ctx, cancel_event))
+
+        await asyncio.gather(send_task, listen_task)
+    except asyncio.CancelledError:
+        print("[DEBUG] TTS stream was cancelled")
+    except Exception as e:
+        print(f"Error in stream_tts: {e}")
+    finally:
+        await ws.close()
+        await client.close()
+        print("[DEBUG] TTS stream completed")
+
+
+async def receive_and_play_audio(ctx, cancel_event):
+    """
+    Receives audio from the TTS service and plays it.
+    """
+    p = pyaudio.PyAudio()
+    stream = None
+    rate = 16000
+    buffer_count = 0
+
+    try:
+        async for output in ctx.receive():
+            if cancel_event.is_set():
+                print("[DEBUG] TTS playback cancelled")
+                break
+
+            buffer = output.get("audio")
+            
+            if buffer is None:
+                print("[DEBUG] Received empty buffer from TTS")
+                continue
+
+            buffer_count += 1
+            print(f"[DEBUG] Received audio buffer {buffer_count} with length {len(buffer)}")
+
+            if not stream:
+                stream = p.open(
+                    format=pyaudio.paInt16,
+                    frames_per_buffer=1024,
+                    channels=1,
+                    rate=rate,
+                    output=True
+                )
+
+            stream.write(buffer)
+    except Exception as e:
+        print(f"Error in receive_and_play_audio: {e}")
+    finally:
+        if stream:
+            stream.stop_stream()
+            stream.close()
+        p.terminate()
+        print(f"[DEBUG] Played {buffer_count} audio buffers in total")

@@ -17,14 +17,39 @@ The user is currently speaking and you are receiving the transcribed text in rea
 - "I'm... I'm sorry, I don't understand..." - YES
 - "Do you ever wonder" - UNCLEAR
 - "I'm not sure if I should..." - NO
-- "Today I'm kinda like, I guess umm, I'm not sure if I should..." - NO
+- "Today I'm kinda like, I guess umm, I'm not sure if I should..." - YES
 - "What do you think of when you..." - NO
 - "What do you do when like... what do you do when you're not talking to people?" - YES
 - "Who is your, like, favorite um favorite shape, I guess." - YES
-- "You are so great" - YES
 - "Hey there, how are you doing like the... the How are you doing? with everything today." - YES
 - "I'm just like... Uh... I... I don't know what to do" - YES
-- "Hey." - YES
+- "Hey" - YES
+- "Yeah." - YES
+- "This is crazy sometimes it's kind of I don't know. What do you think?" - YES
+- "I'm not sure if I should..." - UNCLEAR
+- "Can you tell me more about how..." - UNCLEAR
+- "I think a lot about... about life." - YES
+- "That's interesting. I never thought of it that way before." - YES
+- "Well, you see, the thing is..." - UNCLEAR
+- "Have you ever had a dream where you..." - NO
+- "I'm feeling a bit overwhelmed with all the..." - NO
+- "Wow, that's amazing! How did you..." - NO
+- "Sometimes I wonder if we're really..." - UNCLEAR
+- "It's like, you know when you're walking down the street and suddenly..." - NO
+- "I can't believe it's already... Wait, what time is it?" - YES
+- "Do you think it's possible to... I mean, hypothetically speaking..." - UNCLEAR
+- "I'm not sure how to explain this, but..." - NO
+- "Max. Max. Are you good? Let me know." - YES
+- "The other day I saw this really cool... um... nevermind" - YES
+- "That reminds me of a story my grandmother used to tell, about..." - NO
+- "Hold on, let me think for a second... Okay, so here's what I think." - YES
+- "I've always wanted to learn how to... Do you have any tips?" - YES
+- "It's complicated, you know? Like, on one hand... but then again..." - UNCLEAR
+- "I'm sorry, I got distracted. What were we talking about...?" - YES
+- "I don't know if this makes sense, but sometimes I feel like..." - NO
+- "Yeah, so almost like whatever the... The real reason is..." - YES
+- "You are so great" - YES
+- "Look, I don't know." - YES
 </examples>
 
 THINK CAREFULLY and infer from context as much as possible. "Listen" very carefully and think about how people speak.
