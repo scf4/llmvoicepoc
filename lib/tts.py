@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 async def stream_tts(text: str, cancel_event):
     """
     Streams text to the TTS service and receives audio
@@ -16,7 +17,6 @@ async def stream_tts(text: str, cancel_event):
     ws = await client.tts.websocket()
     ctx = ws.context()
 
-
     async def send_transcripts():
         try:
             print("[DEBUG] Sending transcript to TTS service")
@@ -25,7 +25,7 @@ async def stream_tts(text: str, cancel_event):
                 transcript=text,
                 voice_id="1001d611-b1a8-46bd-a5ca-551b23505334",
                 output_format={"container": "raw", "sample_rate": 16000, "encoding": "pcm_s16le"},
-                continue_=True
+                continue_=True,
             )
             print("[DEBUG] Transcript sent successfully")
             await ctx.no_more_inputs()
@@ -63,7 +63,7 @@ async def receive_and_play_audio(ctx, cancel_event):
                 break
 
             buffer = output.get("audio")
-            
+
             if buffer is None:
                 print("[DEBUG] Received empty buffer from TTS")
                 continue
@@ -72,13 +72,7 @@ async def receive_and_play_audio(ctx, cancel_event):
             print(f"[DEBUG] Received audio buffer {buffer_count} with length {len(buffer)}")
 
             if not stream:
-                stream = p.open(
-                    format=pyaudio.paInt16,
-                    frames_per_buffer=1024,
-                    channels=1,
-                    rate=rate,
-                    output=True
-                )
+                stream = p.open(format=pyaudio.paInt16, frames_per_buffer=1024, channels=1, rate=rate, output=True)
 
             stream.write(buffer)
     except Exception as e:
