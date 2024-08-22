@@ -24,7 +24,7 @@ MINIMUM_SILENCE_SECONDS = 0.5
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 
-check_message_did_end_system_prompt = open("prompts/check_message_end.txt").read()
+check_message_did_end_system_prompt = open("prompts/check_message_did_end.txt").read()
 
 
 async def generate_response(transcription, username, ai_name):

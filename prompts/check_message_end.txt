@@ -1,55 +1,62 @@
-The user is currently speaking and you are receiving the transcribed text in realtime. Analyze the user's transcription text and determine if they have finished speaking.
+Analyze the message from the user and determine if they have finished speaking, no matter how short or long the message is.
 
-- Incomplete sentences and questions are not complete!
+Indications of incomplete messages can be filler words ("like", etc.)
+
+- Incomplete sentences (e.g. mid-sentence, mid-thought) are not complete messages.
 - Think about what a complete sentence looks like in a turn-based conversation, does the text make sense as a complete sentence, statement, question, thought, etc?
-- If the user seems to have paused, do not assume they are done speaking, they may just be pausing to think. Remember, the user is speaking live and you are receiving their transcription in near realtime.
+- If the user seems to have paused, do not assume they are done speaking unless it seems likely — they may have paused for a second just to think. Remember, the user is speaking live and you are receiving their transcription in near realtime.
+- Carefully consider the context of the message, and use the example messages as a guide.
 
 # IMPORTANT
 - The transcriptions are not perfect! You must use your best judgment.
 - Respond ONLY with YES, NO, or UNCLEAR
 
-<examples>
-- "Hey, what's up?" - YES
-- "I'm just..." - NO
-- "So, earlier my friend was telling me about this..." - UNCLEAR
-- "Do you ever like... I wonder if... Like, if people... if people care." - YES
-- "Hey, I'm just... I don't know. How are you?" - YES
-- "I'm... I'm sorry, I don't understand..." - YES
-- "Do you ever wonder" - UNCLEAR
-- "I'm not sure if I should..." - NO
-- "Today I'm kinda like, I guess umm, I'm not sure if I should..." - YES
-- "What do you think of when you..." - NO
-- "What do you do when like... what do you do when you're not talking to people?" - YES
-- "Who is your, like, favorite um favorite shape, I guess." - YES
-- "Hey there, how are you doing like the... the How are you doing? with everything today." - YES
-- "I'm just like... Uh... I... I don't know what to do" - YES
-- "Hey" - YES
-- "Yeah." - YES
-- "This is crazy sometimes it's kind of I don't know. What do you think?" - YES
-- "I'm not sure if I should..." - UNCLEAR
-- "Can you tell me more about how..." - UNCLEAR
-- "I think a lot about... about life." - YES
-- "That's interesting. I never thought of it that way before." - YES
-- "Well, you see, the thing is..." - UNCLEAR
-- "Have you ever had a dream where you..." - NO
-- "I'm feeling a bit overwhelmed with all the..." - NO
-- "Wow, that's amazing! How did you..." - NO
-- "Sometimes I wonder if we're really..." - UNCLEAR
-- "It's like, you know when you're walking down the street and suddenly..." - NO
-- "I can't believe it's already... Wait, what time is it?" - YES
-- "Do you think it's possible to... I mean, hypothetically speaking..." - UNCLEAR
-- "I'm not sure how to explain this, but..." - NO
-- "Max. Max. Are you good? Let me know." - YES
-- "The other day I saw this really cool... um... nevermind" - YES
-- "That reminds me of a story my grandmother used to tell, about..." - NO
-- "Hold on, let me think for a second... Okay, so here's what I think." - YES
-- "I've always wanted to learn how to... Do you have any tips?" - YES
-- "It's complicated, you know? Like, on one hand... but then again..." - UNCLEAR
-- "I'm sorry, I got distracted. What were we talking about...?" - YES
-- "I don't know if this makes sense, but sometimes I feel like..." - NO
-- "Yeah, so almost like whatever the... The real reason is..." - YES
-- "You are so great" - YES
-- "Look, I don't know." - YES
-</examples>
+# Examples of complete and incomplete messages
+- Hey, what's up? -> YES
+- I'm just... -> NO
+- So, earlier my friend was telling me about this... -> UNCLEAR
+- Do you ever like... I wonder if... Like, if people... if people care. -> YES
+- Hey, I'm just... I don't know. How are you? -> YES
+- I'm... I'm sorry, I don't understand... -> YES
+- Do you ever wonder -> UNCLEAR
+- I'm not sure if I should... -> NO
+- Today I'm kinda like, I guess umm, I'm not sure if I should... -> YES
+- What do you think of when you... -> NO
+- What do you do when like... what do you do when you're not talking to people? -> YES
+- Who is your, like, favorite um favorite shape, I guess. -> YES
+- Hey there, how are you doing like the... the How are you doing? with everything today. -> YES
+- I'm just like... Uh... I... I don't know what to do -> YES
+- Hey -> YES
+- Yeah. -> YES
+- This is crazy sometimes it's kind of I don't know. What do you think? -> YES
+- I'm not sure if I should... -> UNCLEAR
+- Can you tell me more about how... -> UNCLEAR
+- I think a lot about... about life. -> YES
+- That's interesting. I never thought of it that way before. -> YES
+- Well, you see, the thing is... -> UNCLEAR
+- Have you ever had a dream where you... -> NO
+- I'm feeling a bit overwhelmed with all the... -> NO
+- Wow, that's amazing! How did you... -> NO
+- Sometimes I wonder if we're really... -> UNCLEAR
+- It's like, you know when you're walking down the street and suddenly... -> NO
+- I can't believe it's already... Wait, what time is it? -> YES
+- Do you think it's possible to... I mean, hypothetically speaking... -> UNCLEAR
+- I'm not sure how to explain this, but... -> NO
+- Max. Max. Are you good? Let me know. -> YES
+- The other day I saw this really cool... um... nevermind -> YES
+- That reminds me of a story my grandmother used to tell, about... -> NO
+- Hold on, let me think for a second... Okay, so here's what I think. -> YES
+- I've always wanted to learn how to... Do you have any tips? -> YES
+- It's complicated, you know? Like, on one hand... but then again... -> UNCLEAR
+- I'm sorry, I got distracted. What were we talking about...? -> YES
+- I don't know if this makes sense, but sometimes I feel like... -> NO
+- Yeah, so almost like whatever the... The real reason is... -> YES
+- You are so great -> YES
+- Look, I don't know. -> YES
+- Hey -> Yes
 
-THINK CAREFULLY and infer from context as much as possible. "Listen" very carefully and think about how people speak.
+# Rules
+1. THINK CAREFULLY and infer from context as much as possible
+2. Read the message very carefully. If the user said a full statement, question, or thought, you must always respond YES, even if it's short.
+
+Use your best judgement!
